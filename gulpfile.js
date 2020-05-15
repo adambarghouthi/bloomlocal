@@ -321,25 +321,12 @@ gulp.task('deps', async (done) => {
 
 // watch files for changes and reload
 gulp.task('serve', function (done) {
-  if (process.env.NODE_ENV !== 'production') {
-    browserSync({
-      server: {
-        baseDir: './dist',
-        index: "index.html"
-      }
-    });
-  }
+  connect.server({
+    root: './dist',
+    port: process.env.PORT || 3000, // localhost:5000
+    livereload: false
+  });
   done();
-});
-
-gulp.task('serveprod', function() {
-  if (process.env.NODE_ENV === 'production') {
-    connect.server({
-      root: './dist',
-      port: process.env.PORT || 5000, // localhost:5000
-      livereload: false
-    });
-  }
 });
 
 gulp.task('watch', function (done) {
