@@ -9,7 +9,6 @@ const autoprefixer = require('gulp-autoprefixer'),
   del = require('del'),
   eslint = require('gulp-eslint'),
   gulp = require('gulp'),
-  connect = require('gulp-connect'),
   log = require('fancy-log'),
   newer = require('gulp-newer'),
   path = require('path'),
@@ -321,10 +320,11 @@ gulp.task('deps', async (done) => {
 
 // watch files for changes and reload
 gulp.task('serve', function (done) {
-  connect.server({
-    root: './dist',
-    port: process.env.PORT || 3000, // localhost:5000
-    livereload: false
+  browserSync({
+    server: {
+      baseDir: './dist',
+      index: "index.html"
+    }
   });
   done();
 });
