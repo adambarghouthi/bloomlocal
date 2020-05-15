@@ -9,6 +9,7 @@ const autoprefixer = require('gulp-autoprefixer'),
   del = require('del'),
   eslint = require('gulp-eslint'),
   gulp = require('gulp'),
+  connect = require('gulp-connect'),
   log = require('fancy-log'),
   newer = require('gulp-newer'),
   path = require('path'),
@@ -320,13 +321,25 @@ gulp.task('deps', async (done) => {
 
 // watch files for changes and reload
 gulp.task('serve', function (done) {
-  browserSync({
-    server: {
-      baseDir: './dist',
-      index: "index.html"
-    }
-  });
+  if (process.env.NODE_ENV !== 'production') {
+    browserSync({
+      server: {
+        baseDir: './dist',
+        index: "index.html"
+      }
+    });
+  }
   done();
+});
+
+gulp.task('serveprod', function() {
+  if (process.env.NODE_ENV === 'production') {
+    connect.server({
+      root: './dist',
+      port: process.env.PORT || 5000, // localhost:5000
+      livereload: false
+    });
+  }
 });
 
 gulp.task('watch', function (done) {
